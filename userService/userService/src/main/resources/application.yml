@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: USER-SERVICE
+
+  config:
+    import: configserver:http://localhost:3030
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/micro
+    username: root
+    password: Vikas@12345
+
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8747/eureka
+
+
+server:
+  port: 1010
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ratingHotelBreaker:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        permittedNumberOfCallsInHalfOpenState: 3
+        waitDurationInOpenState: 6s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        slidingWindowType: COUNT_BASED
+        recordExceptions:
+          - java.lang.RuntimeException
+          - java.io.IOException
+

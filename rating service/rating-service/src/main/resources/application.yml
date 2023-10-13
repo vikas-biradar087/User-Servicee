@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: RATING-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/rating-data
+    username: root
+    password: Vikas@12345
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8747/eureka
+
+server:
+  port: 9090
